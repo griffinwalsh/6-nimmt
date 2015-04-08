@@ -1,0 +1,33 @@
+package nimmt.card;
+
+
+public class Card {
+
+	public int cardID=0;
+	public int pointValue=0;
+	
+	
+		// get the cardID
+	public int getCardID() {
+		return cardID;	
+		}
+	
+		//get the pointValue
+	public int getPointValue() {
+		return pointValue;
+	}
+	
+		//set the cardID and pointValue
+	public void setCardValues(int cardID) {
+		this.cardID = cardID;
+		if ( cardID % 5 == 0) {	
+			this.pointValue += 2;
+		} if ( cardID % 10 == 0) {	
+			this.pointValue += 1;
+		} if ( cardID % 11 == 0) {	
+			this.pointValue += 5;
+		} if (pointValue == 0)
+			this.pointValue = 1;
+		System.out.println("PointValue is " + pointValue);
+		}
+}
