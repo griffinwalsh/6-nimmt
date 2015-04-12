@@ -2,29 +2,36 @@ package nimmt.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
+
+
+
 
 import nimmt.card.Card;
+import nimmt.game.Game;
 
 public class Player {
 	
 	public Card card = new Card();
 	public int playerID;
-	public static  ArrayList<Card> hand = new ArrayList<Card>();
-	public  int cardID;
+	public  ArrayList<Card> hand = new ArrayList<Card>();
+	public int cardID;
 	public int points;
 	
-	public static void takeAction() {
-		Random r = new Random();
-		r.nextInt(4);
-		Collections.shuffle(hand);
-		Card card = hand.get(0);
-		playerArray[i].takeCard(card);
-		hand.remove(0);
+	public void playCard() {
+		if(hand.size()>0) {
+			Collections.shuffle(hand);
+			Card card = hand.get(0);
+			hand.remove(0);		
+			Game.cardsToGame(card);
+			System.out.println("Player " + playerID + " has played Card " + card.getCardID());
+		} else { 
+			Game.score();
+		}
 	}
 	
  	public void takeCard(Card card) {
-		this.card = card;
+		
+		card.setOwner(playerID);
 		hand.add(card);
 		cardID = card.getCardID();
 		System.out.println("Player " + playerID + " has taken Card " + cardID);	
@@ -36,12 +43,14 @@ public class Player {
 	}
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
+		System.out.println("Player " + playerID + " has been created");
 	}	
 
 	public int getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
-		this.points = points;
+	public void addPoints(int newPoints) {
+		this.points += newPoints;
+		System.out.println("Player " + playerID + " got " + newPoints + " new points and now has " + points + " points" );
 	}	
 }

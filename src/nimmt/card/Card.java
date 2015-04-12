@@ -5,7 +5,7 @@ public class Card {
 
 	public int cardID=0;
 	public int pointValue=0;
-	
+	public int owner=2;
 	
 		// get the cardID
 	public int getCardID() {
@@ -30,4 +30,22 @@ public class Card {
 			this.pointValue = 1;
 		System.out.println("PointValue is " + pointValue);
 		}
+
+
+	public int getOwner() {
+		return owner;
+	}
+	public void setOwner(int owner) {
+		this.owner = owner;
+		System.out.println("Card " + cardID + "'s owner has been set to " + owner);
+	}
+
+
+
+
+
+
+
+
+
 }
