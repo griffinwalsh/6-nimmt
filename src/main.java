@@ -24,6 +24,8 @@ public class main {
 		//run the game
 		Game.go();
 		
+		//put final score in console
+		Game.score();
 		}
 
 	}

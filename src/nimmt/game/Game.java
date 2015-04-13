@@ -76,8 +76,8 @@ public class Game {
 	}
 	
 	public static void go() {
-		int currentBestValue = 1+deckSize;
-		int currentBestRow=2 ;
+		int currentBestValue = 0;
+		int currentBestRow=10 ;
 		int currentLowestCard = 1+deckSize;
 		int currentLowestCardsRow = 0;
 		int cardValue;
@@ -107,14 +107,20 @@ public class Game {
 					rCardValue = rowCard.getCardID();
 					
 					if (pCardValue > rCardValue) {
-						if (rCardValue < currentBestValue) {
+						if (rCardValue > currentBestValue) {
 						currentBestValue = rCardValue;
 						currentBestRow = j;
 						}
 					}
 				}
-				rowArray[currentBestRow].takeCard(card);
-				currentBestValue = 1+deckSize;
+				if (currentBestRow == 10) {
+					currentBestRow = playerArray[q].pickRowTake();
+					rowArray[currentBestRow].replaceRow(card);
+				} else {
+					rowArray[currentBestRow].takeCard(card);
+					currentBestValue = 0;
+				}
+		
 			}
 	
 			}			
@@ -123,7 +129,8 @@ public class Game {
 		
 	public static void score() {
 		for (int i = 0 ; i < numOfPlayers ; i++) {
-			playerArray[i].getPoints();
+			int points = playerArray[i].getPoints();
+			System.out.println("Player " + i + " got " + points + " points");
 			
 		}
 	}
@@ -164,6 +171,12 @@ public class Game {
 	}
 	public static void setPlayerArray(Player[] newPlayerArray) {
 		playerArray = newPlayerArray;
+	}
+	public static Row[] getRowArray() {
+		return rowArray;
+	}
+	public static void setRowArray(Row[] newRowArray) {
+		rowArray = newRowArray;
 	}
 	
 }

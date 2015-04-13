@@ -27,11 +27,10 @@ public class Row {
 					Card pointCard = cardsInRow.get(i);
 					pointValue = pointCard.getPointValue();
 					rowPointValue += pointValue;
-					
 				}
 				playerArray = Game.getPlayerArray();
 				owner = card.getOwner();
-				System.out.println(owner + " " + card.getOwner());
+				
 				playerArray[owner].addPoints(rowPointValue);
 				Game.setPlayerArray(playerArray);
 				clearRow();
@@ -42,7 +41,21 @@ public class Row {
 	}
 	
 	
-	
+	public void replaceRow(Card newCard) {
+		for (int i = 0 ; i < cardsInRow.size() ; i++) {
+			Card pointCard = cardsInRow.get(i);
+			pointValue = pointCard.getPointValue();
+			rowPointValue += pointValue;
+		}
+		playerArray = Game.getPlayerArray();
+		owner = newCard.getOwner();
+		playerArray[owner].addPoints(rowPointValue);
+		Game.setPlayerArray(playerArray);
+		this.cardsInRow = new ArrayList<Card>();
+		rowPointValue = 0;
+		cardsInRow.add(newCard);
+		System.out.println("card " + newCard.getCardID() + " has replaced row " + rowID);
+	}
 	
 	
 	
@@ -75,6 +88,14 @@ public class Row {
 	}
 	public void setPlayerArray(Player[] playerArray) {
 		this.playerArray = playerArray;
+	}
+	public int getPoints() {
+		for (int i = 0 ; i < cardsInRow.size() ; i++) {
+			Card pointCard = cardsInRow.get(i);
+			pointValue = pointCard.getPointValue();
+			rowPointValue += pointValue;
+		}
+		return rowPointValue;
 	}
 
 

@@ -6,8 +6,10 @@ import java.util.Collections;
 
 
 
+
 import nimmt.card.Card;
 import nimmt.game.Game;
+import nimmt.row.Row;
 
 public class Player {
 	
@@ -16,6 +18,7 @@ public class Player {
 	public  ArrayList<Card> hand = new ArrayList<Card>();
 	public int cardID;
 	public int points;
+	public Row[] rowArray= new Row[4];
 	
 	public void playCard() {
 		if(hand.size()>0) {
@@ -35,7 +38,24 @@ public class Player {
 		hand.add(card);
 		cardID = card.getCardID();
 		System.out.println("Player " + playerID + " has taken Card " + cardID);	
-	}	
+	}
+ 	
+ 	public int pickRowTake() {
+ 		rowArray = Game.getRowArray();
+ 		int pointValue;
+ 		int bestPointValue = 1000;
+ 		int bestRowToTake=5;
+ 		for (int i = 0 ; i < rowArray.length ; i++) {
+			pointValue = rowArray[i].getPoints();
+			if(pointValue<bestPointValue) {
+				bestRowToTake = i;
+				bestPointValue = pointValue;
+			}
+ 		}
+ 		
+ 		System.out.println("Player " + playerID + " has chosen row " + bestRowToTake);
+ 		return bestRowToTake;
+ 	}	
  	
 
 	public int getPlayerID() {
