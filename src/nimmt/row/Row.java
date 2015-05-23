@@ -77,8 +77,8 @@ public class Row {
 		return card;
 	}
 		//get the pointValue
-	public int getRowID() {
-		return pointValue;
+	public int getPointValue() {
+		return rowPointValue;
 	}	
 	public void setRowID(int rowID) {
 		this.rowID = rowID;
@@ -97,9 +97,13 @@ public class Row {
 		}
 		return rowPointValue;
 	}
-
-
-
+	public int getNumCards() {
+		return cardsInRow.size();
+	}
+	public Card getCard(int cardNumber) {
+		Card card = this.cardsInRow.get(cardNumber);
+		return card;
+	}
 
 
 

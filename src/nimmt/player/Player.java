@@ -7,6 +7,8 @@ import java.util.Collections;
 
 
 
+
+import dbConnect.DBConnect;
 import nimmt.card.Card;
 import nimmt.game.Game;
 import nimmt.row.Row;
@@ -27,6 +29,7 @@ public class Player {
 			hand.remove(0);		
 			Game.cardsToGame(card);
 			System.out.println("Player " + playerID + " has played Card " + card.getCardID());
+			
 		} else { 
 			Game.score();
 		}

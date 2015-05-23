@@ -1,4 +1,5 @@
 
+import dbConnect.DBConnect;
 import nimmt.game.Game;
 import nimmt.player.Player;
 
@@ -8,7 +9,7 @@ public class main {
 
 
 	public static void main(String[] args) {
-	
+		DBConnect connect = new DBConnect();
 		//creates the deck
 		Game.createDeck();
 		

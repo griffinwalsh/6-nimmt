@@ -4,7 +4,9 @@ package nimmt.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
+import dbConnect.DBConnect;
 import nimmt.card.Card;
 import nimmt.player.Player;
 import nimmt.row.Row;
@@ -15,6 +17,8 @@ public class Game {
 	public static int numOfRows = 4;
 	public static int handSize = 10;
 	public static int deckSize = 104;
+	public static int numDataObjects = 0;
+	
 	
 	public static Card card = new Card();	
 	public static Row row = new Row();
@@ -27,6 +31,11 @@ public class Game {
 	public static int rCardValue = 0;
 	public static int pCardValue = 0;
 	
+	public static int gameInterest =7;
+	public static int turnInterest =1;
+	public static int playInterest = 1;
+	
+	
 	public static void createDeck() {
 		for (int i = 0 ; i < deckSize ; i++) {
 			System.out.println("Card " + (i+1) + " has been created");
@@ -35,9 +44,10 @@ public class Game {
 			deck.add(card);
 			card.setCardValues(i+1);
 			}
-			// Shuffles the deck (Randomises cards placement in ArrayList<> deck)
+			// Shuffles the deck (Randomizes cards placement in ArrayList<> deck)
 		Collections.shuffle(deck);	
 		System.out.println("-----Deck has been created and shuffled-----");
+		
 	}
 	
 	public static void createPlayers() {
@@ -46,6 +56,7 @@ public class Game {
 			playerArray[i].setPlayerID(i);
 			;
 		}
+		
 	}
 	
 	public static void deal() {
@@ -58,7 +69,8 @@ public class Game {
 			}
 			
 		}
-		
+		numDataObjects++;
+		System.out.println("numDataObjects = "+numDataObjects);		
 	}
 	
 	public static void createRows() {
@@ -67,11 +79,13 @@ public class Game {
 			int rowID = (i);
 			rowArray[i].setRowID(rowID);
 			System.out.println("row " + (i) + " added to row array");
+			
 		}	
 		for (int i = 0 ; i < numOfRows ; i++) {	
 			Card card = deck.get(0);
 			rowArray[i].takeCard(card);
 			deck.remove(0);
+			
 		}
 	}
 	
@@ -85,6 +99,7 @@ public class Game {
 		for(int i = 0 ; i < handSize ; i++) {
 			for (int q = 0 ; q < playerArray.length ; q++) {
 				playerArray[q].playCard();
+				
 			}	
 			
 			for (int q = 0 ; q < playerArray.length ; q++) {
@@ -120,13 +135,16 @@ public class Game {
 					rowArray[currentBestRow].takeCard(card);
 					currentBestValue = 0;
 				}
-		
+				
+				DBConnect.addDataToPlayData(1,i,card.getOwner(),card.getCardID(),1,1 );
+				
 			}
-	
-			}			
+			Game.addDataToFactData(i);
+			DBConnect.addDataToGameIndex(1,gameInterest,i,turnInterest);
+			}	
+		
 		}
 	
-		
 	public static void score() {
 		for (int i = 0 ; i < numOfPlayers ; i++) {
 			int points = playerArray[i].getPoints();
@@ -135,13 +153,37 @@ public class Game {
 		}
 	}
 
-
 	public static void rowFull() {
 		
 	}
 	
-	
-	
+	public static void addDataToFactData(int i) {
+		
+		Random rand = new Random();
+
+		int  randNum;
+		numDataObjects=3+2*rowArray.length;
+		for (int a = 0 ; a < rowArray.length ; a++) {
+			for (int b = 0 ; b < rowArray[a].getNumCards() ; b++) {
+				numDataObjects+=2;
+			}
+		}
+		
+		for (int q = 0 ; q < rowArray.length ; q++) {
+			 
+			randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) { DBConnect.addDatatoFactData(1, i, "\"NumCards\"", rowArray[q].getNumCards(), "\"R"+q+"\"");}
+			randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) { DBConnect.addDatatoFactData(1, i, "\"PointValue\"", rowArray[q].getPointValue() , "\"R"+q+"\"");}
+			for (int p = 0 ; p < rowArray[q].getNumCards() ; p++) {
+				Card recordCard = rowArray[q].getCard(p);
+				randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) {DBConnect.addDatatoFactData(1,i,"\"CardID\"",recordCard.getCardID(),"\"C"+p+"R"+q+"\"");}
+				randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) {DBConnect.addDatatoFactData(1,i,"\"PointValue\"",recordCard.getPointValue(),"\"C"+p+"R"+q+"\"");}
+			}
+		}
+		randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) {DBConnect.addDatatoFactData(1, i, "\"NumPlayers\"", numOfPlayers, "\"G\"");}
+		randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) {DBConnect.addDatatoFactData(1, i, "\"NumCards\"", 9-i, "\"H\"");}
+		randNum = rand.nextInt(numDataObjects) + 1; if (randNum <= gameInterest) {DBConnect.addDatatoFactData(1, i, "\"NumCards\"", deck.size(), "\"D\"");}
+		
+	}
 	
 	
 	
