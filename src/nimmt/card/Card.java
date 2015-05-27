@@ -6,6 +6,7 @@ public class Card {
 	public int cardID=0;
 	public int pointValue=0;
 	public int owner=2;
+	public int pointsGained=0;
 	
 		// get the cardID
 	public int getCardID() {
@@ -41,6 +42,14 @@ public class Card {
 	}
 
 
+
+	public int getPointsGained() {
+		return pointsGained;
+	}
+	public void setPointsGained(int pointsGained) {
+		this.pointsGained = pointsGained;
+
+	}
 
 
 

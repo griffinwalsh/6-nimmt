@@ -10,17 +10,8 @@ public class main {
 
 	public static void main(String[] args) {
 		DBConnect connect = new DBConnect();
-		//creates the deck
-		Game.createDeck();
 		
-		//creates the players
-		Game.createPlayers();
-		
-		//give each player a hand and put one card in all four starting rows
-		Game.deal();
-		
-		//creates the rows and puts the first card in those rows
-		Game.createRows();
+		Game.initGame();
 		
 		//run the game
 		Game.go();
